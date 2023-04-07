@@ -40,6 +40,12 @@ final class QuestionViewController: UIViewController {
         rangedSlider.maximumValue = answerCount
         rangedSlider.value = answerCount / 2
     }
+    
+    //MARK: - View Transition
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let resultVC = segue.destination as? ResultViewController else { return }
+        resultVC.answersChoosen = answersChosen
+    }
 
     // MARK: - IB Actions
     @IBAction func singleButtonAnswerPressed(_ sender: UIButton) {
@@ -63,10 +69,6 @@ final class QuestionViewController: UIViewController {
         let index = lrintf(rangedSlider.value)
         answersChosen.append(currentAnswers[index])
         nextQuestion()
-    }
-    
-    deinit {
-        print("\(type(of: self)) has been deallocated")
     }
 }
 
