@@ -12,7 +12,7 @@ final class ResultViewController: UIViewController {
     @IBOutlet var titleResultLabel: UILabel!
     @IBOutlet var descriptionResultLabel: UILabel!
     
-    var answersChoosen: [Answer] = []
+    var answersChoosen: [Answer]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,9 +34,10 @@ final class ResultViewController: UIViewController {
         var animalCount: [Animal: Int] = [:]
         animals.forEach { animalCount[$0] = (animalCount[$0] ?? 0) + 1 }
         
-        if let (animal, _) = animalCount.max(by: { $0.1 < $1.1 }) {
-            titleResultLabel.text = "Вы - \(animal.rawValue)"
-            descriptionResultLabel.text = "\(animal.definition)"
-        }
+        let animalsSorted = animalCount.sorted { $0.value > $1.value }
+        
+        guard let animal = animalsSorted.first?.key else { return }
+        titleResultLabel.text = "Вы - \(animal.rawValue)"
+        descriptionResultLabel.text = "\(animal.definition)"
     }
 }
